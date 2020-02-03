@@ -17,28 +17,32 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var namedRoutes = <String, WidgetBuilder>{
+      'MyOldApp': (BuildContext context) => new MyOldApp(),
+      'DemoApp': (BuildContext context) => new DemoApp(),
+      'MyToggleApp': (BuildContext context) => new MyToggleApp(),
+      'MyNetworkApp': (BuildContext context) => new MyNetworkApp(),
+      'MyBackgroundApp': (BuildContext context) => new MyBackgroundApp(),
+      'MyProgressNetworkApp': (BuildContext context) =>
+          new MyProgressNetworkApp(),
+      'MyImagesSample': (BuildContext context) => new MyImagesSample(),
+      'MyGesturesSample': (BuildContext context) => new MyGesturesSample()
+    };
+
     return new MaterialApp(
       debugShowMaterialGrid: false,
-      title: 'Flutter Learning 01',
       theme: new ThemeData(primarySwatch: Colors.blue),
-      home: new MyHomePage(title: 'Flutter 01 HomePage'),
-      routes: <String, WidgetBuilder>{
-        '/a': (BuildContext context) => new MyOldApp(),
-        '/b': (BuildContext context) => new DemoApp(),
-        '/c': (BuildContext context) => new MyToggleApp(),
-        '/d': (BuildContext context) => new MyNetworkApp(),
-        '/e': (BuildContext context) => new MyBackgroundApp(),
-        '/f': (BuildContext context) => new MyProgressNetworkApp(),
-        '/g': (BuildContext context) => new MyImagesSample(),
-        '/h': (BuildContext context) => new MyGesturesSample()
-      },
+      home: new MyHomePage(title: 'My Flutter PlayGround', routes: namedRoutes),
+      routes: namedRoutes,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
+  final Map<String, WidgetBuilder> routes;
+
+  MyHomePage({Key key, this.title, this.routes}) : super(key: key);
 
   @override
   _MyHomePageState createState() => new _MyHomePageState();
@@ -49,20 +53,20 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: Text('flutter test 01'),
-        backgroundColor: Colors.teal,
+        title: Text(widget.title),
+        backgroundColor: Colors.deepOrange,
       ),
       // body: Center(
       //   child: Text("You pressed the button $_counter times."),
       // ),
       body: new Center(
-        child: CustomButton("Hello"),
-      ),
+          // child: CustomButton("Hello"),
+          child: getPages()),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         child: Container(
           height: 50.0,
-          color: Colors.teal,
+          color: Colors.deepOrangeAccent,
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -76,13 +80,29 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         child: Icon(Icons.add),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       drawer: Drawer(
         child: Center(
           child: Text("data"),
         ),
       ),
     );
+  }
+
+  ListView getPages() {
+    List<String> routesName = widget.routes.keys.toList();
+    return ListView.builder(
+        itemCount: routesName.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text('${routesName[index]}'),
+            onTap: () async {
+              await Navigator.of(context).pushNamed('${routesName[index]}');
+            },
+          );
+          // return ListTile(
+          //     title: Text('${ModalRoute.of(context).settings.arguments}'));
+        });
   }
 }
 
