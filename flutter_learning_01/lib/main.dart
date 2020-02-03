@@ -5,6 +5,7 @@ import 'package:flutter_learning_01/main.images.dart';
 import 'package:flutter_learning_01/main.old.dart';
 import 'package:flutter_learning_01/main.progress.networkcall.dart';
 import 'package:flutter_learning_01/main.toggle.animation.dart';
+import 'package:flutter_learning_01/pages/custom.fonts.dart';
 
 import 'main.network.data.dart';
 import 'main.signaturepad.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
       'MyProgressNetworkApp': (BuildContext context) =>
           new MyProgressNetworkApp(),
       'MyImagesSample': (BuildContext context) => new MyImagesSample(),
-      'MyGesturesSample': (BuildContext context) => new MyGesturesSample()
+      'MyGesturesSample': (BuildContext context) => new MyGesturesSample(),
+      'MyCustomFontsSample': (BuildContext context) => new MyCustomFontsSample()
     };
 
     return new MaterialApp(
