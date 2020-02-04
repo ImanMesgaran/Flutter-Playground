@@ -24,7 +24,7 @@ class _MyCustomFontsPage extends State<CustomFontsPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: Text('flutter test 01'),
+        title: Text('Custom Fonts and Styling'),
         backgroundColor: Colors.teal,
       ),
       // body: Center(
@@ -37,6 +37,22 @@ class _MyCustomFontsPage extends State<CustomFontsPage> {
   ListView getFontsOnWeight() {
     return ListView(
       children: <Widget>[
+        Container(
+          child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: new Center(
+                child: Text(
+                  'Decoration Sample',
+                  style: new TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 30,
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.black,
+                    decorationStyle: TextDecorationStyle.dotted,
+                  ),
+                ),
+              )),
+        ),
         Container(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
