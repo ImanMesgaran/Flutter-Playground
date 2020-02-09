@@ -1,3 +1,4 @@
+import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_learning_01/main.background.thread.dart';
 import 'package:flutter_learning_01/main.gestures.dart';
@@ -5,8 +6,12 @@ import 'package:flutter_learning_01/main.images.dart';
 import 'package:flutter_learning_01/main.old.dart';
 import 'package:flutter_learning_01/main.progress.networkcall.dart';
 import 'package:flutter_learning_01/main.toggle.animation.dart';
+import 'package:flutter_learning_01/pages/ListView/ListViewSimple.dart';
+import 'package:flutter_learning_01/pages/charts/horizontal_pattern_charts.dart';
 import 'package:flutter_learning_01/pages/custom.entry.dart';
 import 'package:flutter_learning_01/pages/custom.fonts.dart';
+import 'package:flutter_learning_01/pages/video.player.dart';
+import 'package:flutter_learning_01/pages/gestures.sample.dart';
 
 import 'main.network.data.dart';
 import 'main.signaturepad.dart';
@@ -31,7 +36,14 @@ class MyApp extends StatelessWidget {
       'MyGesturesSample': (BuildContext context) => new MyGesturesSample(),
       'MyCustomFontsSample': (BuildContext context) =>
           new MyCustomFontsSample(),
-      'MyCustomEntrySample': (BuildContext context) => new MyCustomEntrySample()
+      'MyCustomEntrySample': (BuildContext context) =>
+          new MyCustomEntrySample(),
+      'My Video Player Sample': (BuildContext context) =>
+          new MyVideoPlayerSample(),
+      'Charts Sample': (BuildContext context) =>
+          new HorizontalPatternForwardHatchBarChart.withSampleData(),
+      'ListView Samples': (BuildContext context) => new MyListViewSample(),
+      'Gestures Sample': (BuildContext context) => new MyGestures()
     };
 
     return new MaterialApp(

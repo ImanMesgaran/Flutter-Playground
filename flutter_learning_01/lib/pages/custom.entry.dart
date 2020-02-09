@@ -23,6 +23,8 @@ class CustomEntrysPage extends StatefulWidget {
 
 class _MyCustomEntryPage extends State<CustomEntrysPage> {
   TextEditingController _fieldAController;
+  String _fieldBText;
+  String _errorText;
 
   @override
   void initState() {
@@ -86,20 +88,43 @@ class _MyCustomEntryPage extends State<CustomEntrysPage> {
   }
 
   formFields() {
+    var textField = TextField(
+      maxLines: 1,
+      decoration: InputDecoration(
+        hintText: "Enter your username",
+        labelText: "Username",
+        errorText: _getErrorText(),
+      ),
+      controller: _fieldAController,
+      onSubmitted: (text) {
+        setState(() {
+          if (!isEmail(text)) {
+            _errorText = 'Enter valid email address';
+          } else {
+            _errorText = null;
+          }
+        });
+      },
+      onEditingComplete: () {},
+      onChanged: (text) {
+        setState(() {
+          if (['', null].contains(text)) {
+            _errorText = null;
+            print('current text is null');
+          }
+          print('current text is: $text');
+          print('onChanged event');
+          print('onError text $_errorText');
+        });
+      },
+    );
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
           padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 30.0),
-          child: TextField(
-            maxLines: 1,
-            decoration: InputDecoration(
-              hintText: "Enter your username",
-              labelText: "Username",
-            ),
-            controller: _fieldAController,
-          ),
+          child: textField,
         ),
         Container(
           padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 30.0),
@@ -112,6 +137,8 @@ class _MyCustomEntryPage extends State<CustomEntrysPage> {
             ),
             onChanged: (text) {
               print('Field B Edited.');
+              _fieldBText = text;
+              print('Field B value: $_fieldBText');
             },
           ),
         ),
@@ -129,7 +156,31 @@ class _MyCustomEntryPage extends State<CustomEntrysPage> {
               style: TextStyle(color: Colors.white),
             ),
             color: Colors.green,
-            onPressed: () {},
+            onPressed: () {
+              // return showDialog(
+              //     context: context,
+              //     builder: (context) {
+              //       return new AlertDialog(
+              //         content: new Text(
+              //             "User name is: ${_fieldAController.text} \n Password: $_fieldBText"),
+              //       );
+              //     });
+
+              return showModalBottomSheet(
+                  context: context,
+                  builder: (context) => Material(
+                      clipBehavior: Clip.antiAlias,
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.only(
+                              topLeft: new Radius.circular(15.0),
+                              topRight: new Radius.circular(15.0))),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[Text('s')],
+                      )));
+            },
           ),
         ),
         SizedBox(
@@ -141,5 +192,18 @@ class _MyCustomEntryPage extends State<CustomEntrysPage> {
         ),
       ],
     );
+  }
+
+  _getErrorText() {
+    return _errorText;
+  }
+
+  bool isEmail(String em) {
+    String emailRegexp =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+    RegExp regExp = new RegExp(emailRegexp);
+
+    return regExp.hasMatch(em);
   }
 }
