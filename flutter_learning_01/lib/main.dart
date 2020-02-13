@@ -13,6 +13,7 @@ import 'package:flutter_learning_01/pages/custom.fonts.dart';
 import 'package:flutter_learning_01/pages/video.player.dart';
 import 'package:flutter_learning_01/pages/gestures.sample.dart';
 
+import 'courses_tests/test01.dart';
 import 'main.network.data.dart';
 import 'main.signaturepad.dart';
 
@@ -43,7 +44,8 @@ class MyApp extends StatelessWidget {
       'Charts Sample': (BuildContext context) =>
           new HorizontalPatternForwardHatchBarChart.withSampleData(),
       'ListView Samples': (BuildContext context) => new MyListViewSample(),
-      'Gestures Sample': (BuildContext context) => new MyGestures()
+      'Gestures Sample': (BuildContext context) => new MyGestures(),
+      'Test 01': (BuildContext context) => new TestsSamplePage()
     };
 
     return new MaterialApp(
