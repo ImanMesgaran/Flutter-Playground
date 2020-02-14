@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_learning_01/courses_tests/widgets/answer.dart';
-import 'package:flutter_learning_01/courses_tests/widgets/question.dart';
+import 'package:flutter_learning_01/courses_tests/widgets/result.dart';
+import './widgets/quiz.dart';
 
 void main() {
   runApp(MyTest01());
@@ -23,19 +23,33 @@ class TestsSamplePage extends StatefulWidget {
 
 class _TestsSamplePage extends State<TestsSamplePage> {
   var _questionIndex = 0;
+  var _totalScore = 0;
 
   final _questions = const [
     {
       'questionText': 'what\'s your favorite band?',
-      'answers': ['pink floyd', 'metalica', 'sepultura']
+      'answers': [
+        {'text': 'pink floyd', 'score': 10},
+        {'text': 'metalica', 'score': 7},
+        {'text': 'sepultura', 'score': 2}
+      ]
     },
     {
       'questionText': 'who\'s your favorite friend?',
-      'answers': ['Mehrdad', 'Reza', 'Vahab', 'Saeed']
+      'answers': [
+        {'text': 'Mehrdad', 'score': 9},
+        {'text': 'Reza', 'score': 5},
+        {'text': 'Vahab', 'score': 7},
+        {'text': 'Saeed', 'score': 3}
+      ]
     },
     {
       'questionText': 'who\'s your favorite Movie?',
-      'answers': ['The GodFather', 'Inception', 'Texas Killing Field']
+      'answers': [
+        {'text': 'The GodFather', 'score': 15},
+        {'text': 'Inception', 'score': 7},
+        {'text': 'Texas Killing Field', 'score': 2}
+      ]
     }
   ];
 
@@ -46,34 +60,25 @@ class _TestsSamplePage extends State<TestsSamplePage> {
         title: Text('Simple ListView'),
         backgroundColor: Colors.teal,
       ),
-      body: PersonWidget(),
+      body: _questionIndex < _questions.length
+          ? Quiz(
+              answerQuestion: _answerQuestion,
+              questions: _questions,
+              questionIndex: _questionIndex,
+              totalScore: _totalScore)
+          : Result(resultScore: _totalScore, resetHandler: _resetQuiz),
     );
   }
 
-  Widget PersonWidget() {
-    var person = Person(firstName: 'Iman', lastName: 'Mesgaran', age: 34);
+  // var person = Person(firstName: 'Iman', lastName: 'Mesgaran', age: 34);
+  // Center(
+  //       child: Text(
+  //           '${person.firstName}  ${person.lastName}  ${person.age}'),
+  //     ),
 
-    return _questionIndex < _questions.length
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Question(_questions[_questionIndex]['questionText']),
-              ...(_questions[_questionIndex]['answers'] as List<String>)
-                  .map((answer) {
-                return Answer(_answerQuestion, answer);
-              }).toList(),
-              Center(
-                child: Text(
-                    '${person.firstName}  ${person.lastName}  ${person.age}'),
-              ),
-            ],
-          )
-        : Center(
-            child: Text('You reached end of questionaire!'),
-          );
-  }
+  void _answerQuestion(int score) {
+    _totalScore += score;
 
-  void _answerQuestion() {
     setState(() {
       _questionIndex++;
       print(_questionIndex);
@@ -83,6 +88,13 @@ class _TestsSamplePage extends State<TestsSamplePage> {
     } else {
       print('No more question!');
     }
+  }
+
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
   }
 }
 
