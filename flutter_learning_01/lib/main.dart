@@ -13,7 +13,8 @@ import 'package:flutter_learning_01/pages/custom.fonts.dart';
 import 'package:flutter_learning_01/pages/video.player.dart';
 import 'package:flutter_learning_01/pages/gestures.sample.dart';
 
-import 'courses_tests/test01.dart';
+import 'courses_tests/quiz/QuizApp.dart';
+import 'courses_tests/personal_expenses/personal_expenses.dart';
 import 'main.network.data.dart';
 import 'main.signaturepad.dart';
 
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var namedRoutes = <String, WidgetBuilder>{
+      'Personal Expenses App': (BuildContext context) =>
+          new MyPersonalExpensesApp(),
+      'Quiz App': (BuildContext context) => new MyQuizApp(),
       'MyOldApp': (BuildContext context) => new MyOldApp(),
       'DemoApp': (BuildContext context) => new DemoApp(),
       'MyToggleApp': (BuildContext context) => new MyToggleApp(),
@@ -45,7 +49,6 @@ class MyApp extends StatelessWidget {
           new HorizontalPatternForwardHatchBarChart.withSampleData(),
       'ListView Samples': (BuildContext context) => new MyListViewSample(),
       'Gestures Sample': (BuildContext context) => new MyGestures(),
-      'Test 01': (BuildContext context) => new TestsSamplePage()
     };
 
     return new MaterialApp(
