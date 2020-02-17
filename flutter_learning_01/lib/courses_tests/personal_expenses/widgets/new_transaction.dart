@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
+class NewTransaction extends StatefulWidget {
   final Function addTransaction;
-  final _titleController = new TextEditingController();
-  final _amountController = new TextEditingController();
 
   NewTransaction(this.addTransaction);
+
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final _titleController = new TextEditingController();
+  final _amountController = new TextEditingController();
 
   void submitData() {
     final enteredTitle = _titleController.text;
@@ -15,7 +21,10 @@ class NewTransaction extends StatelessWidget {
       return;
     }
 
-    addTransaction(_titleController.text, double.parse(_amountController.text));
+    widget.addTransaction(
+        _titleController.text, double.parse(_amountController.text));
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -42,10 +51,11 @@ class NewTransaction extends StatelessWidget {
                 onPressed: () {
                   // this below code will dismiss the keyboard of the textfiels
                   // when the button is clicked!
+                  /*
                   FocusScopeNode currentFocus = FocusScope.of(context);
                   if (!currentFocus.hasPrimaryFocus) {
                     currentFocus.unfocus();
-                  }
+                  }*/
 
                   submitData();
                 },
