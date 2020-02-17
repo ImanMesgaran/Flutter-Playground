@@ -28,6 +28,7 @@ dependencies:
   video_player: ^0.10.6
   charts_flutter:
   intl: ^0.16.1
+  persian: ^0.1.4
 
 dev_dependencies:
   flutter_test:
