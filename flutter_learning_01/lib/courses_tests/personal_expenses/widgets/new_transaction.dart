@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTransaction;
@@ -12,19 +13,36 @@ class NewTransaction extends StatefulWidget {
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = new TextEditingController();
   final _amountController = new TextEditingController();
+  DateTime _pickedDate;
 
   void submitData() {
+    if (_amountController.text.isEmpty) return;
+
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _pickedDate == null) {
       return;
     }
 
-    widget.addTransaction(
-        _titleController.text, double.parse(_amountController.text));
+    widget.addTransaction(_titleController.text,
+        double.parse(_amountController.text), _pickedDate);
 
     Navigator.of(context).pop();
+  }
+
+  void _showDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2019),
+            lastDate: DateTime.now())
+        .then((pickedDate) {
+      if (pickedDate == null) return;
+      setState(() {
+        _pickedDate = pickedDate;
+      });
+    });
   }
 
   @override
@@ -47,6 +65,26 @@ class _NewTransactionState extends State<NewTransaction> {
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               onSubmitted: (_) => submitData(),
             ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(_pickedDate == null
+                      ? 'No Date Chosen!'
+                      : DateFormat.yMd().format(_pickedDate)),
+                ),
+                FlatButton(
+                  child: Text(
+                    'Choose a Date',
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  onPressed: () {
+                    _showDatePicker();
+                  },
+                )
+              ],
+            ),
             FlatButton(
                 onPressed: () {
                   // this below code will dismiss the keyboard of the textfiels
@@ -62,7 +100,7 @@ class _NewTransactionState extends State<NewTransaction> {
                 child: Text(
                   'Add item',
                   style: TextStyle(color: Colors.purple),
-                ))
+                )),
           ],
         ),
       ),

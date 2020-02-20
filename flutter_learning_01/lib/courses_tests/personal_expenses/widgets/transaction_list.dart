@@ -10,7 +10,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 310,
+      height: 400,
       child: transactions.isEmpty
           ? Column(
               children: <Widget>[
@@ -49,7 +49,6 @@ class TransactionList extends StatelessWidget {
                               color: Theme.of(context).primaryColorLight,
                               width: 2,
                             ),
-                            // borderRadius: BorderRadius.all(Radius.circular(10))),
                             borderRadius: BorderRadius.circular(10)),
                         padding: EdgeInsets.all(10),
                       ),

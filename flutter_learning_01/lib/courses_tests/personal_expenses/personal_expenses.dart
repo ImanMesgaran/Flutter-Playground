@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './widgets/transaction_list.dart';
+import './widgets/chart.dart';
 import './widgets/new_transaction.dart';
 import './models/transaction.dart';
 
@@ -39,21 +40,43 @@ class MyPersonalExpensesPage extends StatefulWidget {
 }
 
 class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
+  List<Transaction> get _recentTransactions {
+    return _userTransactions
+        .where(
+            (x) => x.date.isAfter(DateTime.now().subtract(Duration(days: 7))))
+        .toList();
+  }
+
   final List<Transaction> _userTransactions = [
-    // Transaction(
-    //     id: 'n1', title: 'New BookShelf', amount: 150, date: DateTime.now()),
-    // Transaction(
-    //     id: 'n1', title: 'New Shoes', amount: 370, date: DateTime.now()),
-    // Transaction(
-    //     id: 'n1', title: 'Dentistery', amount: 600, date: DateTime.now()),
-    // Transaction(
-    //     id: 'n1', title: 'Dentistery', amount: 600, date: DateTime.now()),
-    // Transaction(
-    //     id: 'n1', title: 'New Shoes', amount: 370, date: DateTime.now()),
-    // Transaction(
-    //     id: 'n1', title: 'Dentistery', amount: 600, date: DateTime.now()),
-    // Transaction(
-    //     id: 'n1', title: 'Dentistery', amount: 600, date: DateTime.now()),
+    Transaction(
+        id: 'n1',
+        title: 'New BookShelf',
+        amount: 150,
+        date: DateTime.now().subtract(Duration(days: 1))),
+    Transaction(
+        id: 'n1',
+        title: 'New Shoes',
+        amount: 370,
+        date: DateTime.now().subtract(Duration(days: 2))),
+    Transaction(
+        id: 'n1',
+        title: 'Dentistery',
+        amount: 150,
+        date: DateTime.now().subtract(Duration(days: 3))),
+    Transaction(
+        id: 'n1',
+        title: 'Dentistery',
+        amount: 500,
+        date: DateTime.now().subtract(Duration(days: 4))),
+    Transaction(
+        id: 'n1',
+        title: 'New Shoes',
+        amount: 370,
+        date: DateTime.now().subtract(Duration(days: 5))),
+    Transaction(
+        id: 'n1', title: 'Dentistery', amount: 60, date: DateTime.now()),
+    Transaction(
+        id: 'n1', title: 'Dentistery', amount: 600, date: DateTime.now()),
   ];
 
   @override
@@ -68,7 +91,6 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
               print('Menu item clicked!');
               _addNewTransactionSheet(context);
             },
-            // color: Colors.white,
           )
         ],
       ),
@@ -77,19 +99,7 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              height: 45,
-              width: double.infinity,
-              child: Card(
-                elevation: 15,
-                color: Colors.orange,
-                child: Text(
-                  'home',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-            // UserTransactions()
+            Chart(_recentTransactions),
             TransactionList(_userTransactions)
           ],
         ),
@@ -105,12 +115,12 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
     );
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime date) {
     final newTransaction = Transaction(
         id: DateTime.now().toString(),
         title: title,
         amount: amount,
-        date: DateTime.now());
+        date: date);
 
     setState(() {
       _userTransactions.add(newTransaction);

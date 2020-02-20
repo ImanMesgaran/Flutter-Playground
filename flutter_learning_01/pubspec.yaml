@@ -49,7 +49,7 @@ flutter:
     - images/temp_account_zeplin.jpg
     - images/io-s.jpg
     - images/tv-in-bedroom-tips-620x300.jpg
-    -
+    - images/waiting.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
