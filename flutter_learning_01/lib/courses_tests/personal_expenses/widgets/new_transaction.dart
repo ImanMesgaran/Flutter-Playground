@@ -15,6 +15,13 @@ class _NewTransactionState extends State<NewTransaction> {
   final _amountController = new TextEditingController();
   DateTime _pickedDate;
 
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _amountController.dispose();
+    super.dispose();
+  }
+
   void submitData() {
     if (_amountController.text.isEmpty) return;
 

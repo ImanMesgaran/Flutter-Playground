@@ -54,29 +54,29 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
         amount: 150,
         date: DateTime.now().subtract(Duration(days: 1))),
     Transaction(
-        id: 'n1',
+        id: 'n2',
         title: 'New Shoes',
         amount: 370,
         date: DateTime.now().subtract(Duration(days: 2))),
     Transaction(
-        id: 'n1',
+        id: 'n3',
         title: 'Dentistery',
         amount: 150,
         date: DateTime.now().subtract(Duration(days: 3))),
     Transaction(
-        id: 'n1',
+        id: 'n4',
         title: 'Dentistery',
         amount: 500,
         date: DateTime.now().subtract(Duration(days: 4))),
     Transaction(
-        id: 'n1',
+        id: 'n5',
         title: 'New Shoes',
         amount: 370,
         date: DateTime.now().subtract(Duration(days: 5))),
     Transaction(
-        id: 'n1', title: 'Dentistery', amount: 60, date: DateTime.now()),
+        id: 'n6', title: 'Dentistery', amount: 60, date: DateTime.now()),
     Transaction(
-        id: 'n1', title: 'Dentistery', amount: 600, date: DateTime.now()),
+        id: 'n7', title: 'Dentistery', amount: 600, date: DateTime.now()),
   ];
 
   @override
@@ -88,7 +88,6 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
-              print('Menu item clicked!');
               _addNewTransactionSheet(context);
             },
           )
@@ -100,7 +99,7 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_userTransactions)
+            TransactionList(_userTransactions, _removeTransaction)
           ],
         ),
       ),
@@ -124,6 +123,14 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
 
     setState(() {
       _userTransactions.add(newTransaction);
+    });
+  }
+
+  void _removeTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) {
+        return tx.id == id;
+      });
     });
   }
 

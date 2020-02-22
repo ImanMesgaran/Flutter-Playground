@@ -8,6 +8,13 @@ class Chart extends StatelessWidget {
 
   Chart(this.recentTransactions);
 
+  double _totalSum;
+
+  @override
+  void dispose() {
+    _totalSum = null;
+  }
+
   List<Map<String, Object>> get groupedTransactionValues {
     return List.generate(7, (index) {
       final weekDay = DateTime.now().subtract(Duration(days: index));
@@ -34,6 +41,8 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _totalSum = totalSum;
+
     return Card(
       elevation: 10,
       margin: EdgeInsets.all(20),
@@ -47,9 +56,9 @@ class Chart extends StatelessWidget {
               child: ChartBar(
                   data['day'],
                   data['amount'],
-                  totalSum == 0.0
+                  _totalSum == 0.0
                       ? 0.0
-                      : (data['amount'] as double) / totalSum),
+                      : (data['amount'] as double) / _totalSum),
             );
           }).toList(),
         ),

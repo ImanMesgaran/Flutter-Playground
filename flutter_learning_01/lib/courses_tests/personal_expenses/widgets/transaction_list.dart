@@ -3,9 +3,10 @@ import 'package:intl/intl.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
+  final Function removeTransaction;
   final List<Transaction> transactions;
 
-  TransactionList(this.transactions);
+  TransactionList(this.transactions, this.removeTransaction);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,38 @@ class TransactionList extends StatelessWidget {
               ],
             )
           : ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
+              itemCount: transactions.length,
+              itemBuilder: (BuildContext ctx, int index) {
+                return Card(
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+                  child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FittedBox(
+                            child: Text(
+                              '\$ ${transactions[index].amount.toStringAsFixed(2)}',
+                            ),
+                          ),
+                        ),
+                      ),
+                      title: Text(transactions[index].title,
+                          style: Theme.of(context).textTheme.title),
+                      subtitle: Text(
+                        new DateFormat('yyyy.MMMM.dd hh:mm aaa')
+                            .format(transactions[index].date),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          removeTransaction(transactions[index].id);
+                        },
+                        color: Theme.of(context).errorColor,
+                      )),
+                );
+                /*
                 return Card(
                   child: Row(
                     children: <Widget>[
@@ -70,8 +102,8 @@ class TransactionList extends StatelessWidget {
                     ],
                   ),
                 );
+                */
               },
-              itemCount: transactions.length,
             ),
     );
   }
