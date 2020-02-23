@@ -81,31 +81,48 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
 
   @override
   Widget build(BuildContext context) {
+    // extracted AppBar, so we can get height of the appbar in the app
+    var appBar = AppBar(
+      title: Text('My Personal Expenses'),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {
+            _addNewTransactionSheet(context);
+          },
+        )
+      ],
+    );
+
+    // calculate available content height
+    var calculatedContentHeight =
+        // get size of the Device height base on given context
+        MediaQuery.of(context).size.height
+            // get height of the AppBar
+            -
+            appBar.preferredSize.height
+            // get height of StatusBar
+            -
+            MediaQuery.of(context).padding.top;
+
+    print('padding height is ${calculatedContentHeight * 0.015}');
     return Scaffold(
-      appBar: AppBar(
-        title: Text('My Personal Expenses'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              _addNewTransactionSheet(context);
-            },
-          )
+      appBar: appBar,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            child: Chart(_recentTransactions),
+            height: calculatedContentHeight * 0.3,
+          ),
+          Container(
+              child: TransactionList(_userTransactions, _removeTransaction),
+              height: calculatedContentHeight * 0.6)
         ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_userTransactions, _removeTransaction)
-          ],
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print('Floating action button clicked!');
           _addNewTransactionSheet(context);
         },
         child: Icon(Icons.add),

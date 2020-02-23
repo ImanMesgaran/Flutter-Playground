@@ -10,11 +10,6 @@ class Chart extends StatelessWidget {
 
   double _totalSum;
 
-  @override
-  void dispose() {
-    _totalSum = null;
-  }
-
   List<Map<String, Object>> get groupedTransactionValues {
     return List.generate(7, (index) {
       final weekDay = DateTime.now().subtract(Duration(days: index));
