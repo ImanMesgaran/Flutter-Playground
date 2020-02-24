@@ -79,6 +79,8 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
         id: 'n7', title: 'Dentistery', amount: 600, date: DateTime.now()),
   ];
 
+  bool _showChart = false;
+
   @override
   Widget build(BuildContext context) {
     // extracted AppBar, so we can get height of the appbar in the app
@@ -106,19 +108,53 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
             MediaQuery.of(context).padding.top;
 
     print('padding height is ${calculatedContentHeight * 0.015}');
+
+    var isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final txList = Container(
+        child: TransactionList(_userTransactions, _removeTransaction),
+        height: calculatedContentHeight * 0.7);
+
     return Scaffold(
       appBar: appBar,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Container(
-            child: Chart(_recentTransactions),
-            height: calculatedContentHeight * 0.3,
-          ),
-          Container(
-              child: TransactionList(_userTransactions, _removeTransaction),
-              height: calculatedContentHeight * 0.6)
+          // show the switch only if we are in landscape mode
+          if (isLandscape)
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              Text('Show Chart'),
+              Switch(
+                value: _showChart,
+                onChanged: (val) {
+                  setState(() {
+                    _showChart = val;
+                  });
+                },
+              )
+            ]),
+          // if we are in landscape mode, show the switch
+          // and switch between ChartBar and ListView
+          if (!isLandscape)
+            Container(
+              child: Chart(_recentTransactions),
+              height: calculatedContentHeight * 0.3,
+            ),
+
+          if (!isLandscape)
+            txList,
+
+          if (isLandscape)
+            _showChart
+                ? Container(
+                    child: Chart(_recentTransactions),
+                    height: calculatedContentHeight * 0.7,
+                  )
+                : txList
+
+          // otherwise, if we are in portrait mode, show both ChartBar and ListView
         ],
       ),
       floatingActionButton: FloatingActionButton(

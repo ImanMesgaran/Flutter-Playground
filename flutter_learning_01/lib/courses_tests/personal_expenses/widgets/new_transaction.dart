@@ -54,61 +54,67 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 10,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TextField(
-              decoration: InputDecoration(labelText: 'Title:'),
-              controller: _titleController,
-              onSubmitted: (_) => submitData(),
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Amount:'),
-              controller: _amountController,
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              onSubmitted: (_) => submitData(),
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(_pickedDate == null
-                      ? 'No Date Chosen!'
-                      : DateFormat.yMd().format(_pickedDate)),
-                ),
-                FlatButton(
-                  child: Text(
-                    'Choose a Date',
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.w600),
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 10,
+        child: Container(
+          padding: EdgeInsets.only(
+              left: 10,
+              top: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(labelText: 'Title:'),
+                controller: _titleController,
+                onSubmitted: (_) => submitData(),
+              ),
+              TextField(
+                decoration: InputDecoration(labelText: 'Amount:'),
+                controller: _amountController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                onSubmitted: (_) => submitData(),
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(_pickedDate == null
+                        ? 'No Date Chosen!'
+                        : DateFormat.yMd().format(_pickedDate)),
                   ),
+                  FlatButton(
+                    child: Text(
+                      'Choose a Date',
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.w600),
+                    ),
+                    onPressed: () {
+                      _showDatePicker();
+                    },
+                  )
+                ],
+              ),
+              FlatButton(
                   onPressed: () {
-                    _showDatePicker();
-                  },
-                )
-              ],
-            ),
-            FlatButton(
-                onPressed: () {
-                  // this below code will dismiss the keyboard of the textfiels
-                  // when the button is clicked!
-                  /*
-                  FocusScopeNode currentFocus = FocusScope.of(context);
-                  if (!currentFocus.hasPrimaryFocus) {
-                    currentFocus.unfocus();
-                  }*/
+                    // this below code will dismiss the keyboard of the textfiels
+                    // when the button is clicked!
+                    /*
+                    FocusScopeNode currentFocus = FocusScope.of(context);
+                    if (!currentFocus.hasPrimaryFocus) {
+                      currentFocus.unfocus();
+                    }*/
 
-                  submitData();
-                },
-                child: Text(
-                  'Add item',
-                  style: TextStyle(color: Colors.purple),
-                )),
-          ],
+                    submitData();
+                  },
+                  child: Text(
+                    'Add item',
+                    style: TextStyle(color: Colors.purple),
+                  )),
+            ],
+          ),
         ),
       ),
     );
