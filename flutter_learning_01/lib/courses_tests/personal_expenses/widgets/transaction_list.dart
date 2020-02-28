@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import '../models/transaction.dart';
+import '../models/transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
   final Function removeTransaction;
@@ -31,43 +32,9 @@ class TransactionList extends StatelessWidget {
         : ListView.builder(
             itemCount: transactions.length,
             itemBuilder: (BuildContext ctx, int index) {
-              return Card(
-                elevation: 5,
-                margin: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-                child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FittedBox(
-                          child: Text(
-                            '\$ ${transactions[index].amount.toStringAsFixed(2)}',
-                          ),
-                        ),
-                      ),
-                    ),
-                    title: Text(transactions[index].title,
-                        style: Theme.of(context).textTheme.title),
-                    subtitle: Text(
-                      new DateFormat('yyyy.MMMM.dd hh:mm aaa')
-                          .format(transactions[index].date),
-                    ),
-                    trailing: MediaQuery.of(context).size.width > 360
-                        ? FlatButton.icon(
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-                              removeTransaction(transactions[index].id);
-                            },
-                            label: Text('remove'),
-                            textColor: Theme.of(context).errorColor)
-                        : IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-                              removeTransaction(transactions[index].id);
-                            },
-                            color: Theme.of(context).errorColor,
-                          )),
-              );
+              return TransactionItem(
+                  transaction: transactions[index],
+                  removeTransaction: removeTransaction);
 
               /*
               return Card(

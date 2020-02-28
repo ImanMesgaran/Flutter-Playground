@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import './widgets/transaction_list.dart';
 import './widgets/chart.dart';
@@ -96,21 +97,20 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
       ],
     );
 
+    final mediaQuery = MediaQuery.of(context);
+
     // calculate available content height
     var calculatedContentHeight =
         // get size of the Device height base on given context
-        MediaQuery.of(context).size.height
+        mediaQuery.size.height
             // get height of the AppBar
             -
             appBar.preferredSize.height
             // get height of StatusBar
             -
-            MediaQuery.of(context).padding.top;
+            mediaQuery.padding.top;
 
-    print('padding height is ${calculatedContentHeight * 0.015}');
-
-    var isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    var isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     final txList = Container(
         child: TransactionList(_userTransactions, _removeTransaction),
@@ -157,12 +157,16 @@ class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
           // otherwise, if we are in portrait mode, show both ChartBar and ListView
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _addNewTransactionSheet(context);
-        },
-        child: Icon(Icons.add),
-      ),
+      // because there's no floatingActionButton concept on iOS, we don't show it
+      // if the Runtime Platform is iOS
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              onPressed: () {
+                _addNewTransactionSheet(context);
+              },
+              child: Icon(Icons.add),
+            ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
