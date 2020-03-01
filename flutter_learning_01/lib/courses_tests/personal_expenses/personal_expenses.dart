@@ -41,6 +41,13 @@ class MyPersonalExpensesPage extends StatefulWidget {
 }
 
 class _MyPersonalExpensesPageState extends State<MyPersonalExpensesPage> {
+  @override
+  initState() {
+    // we should call super.initState() first and put our code after it. (specially in production code)
+    super.initState();
+    print('initState called.');
+  }
+
   List<Transaction> get _recentTransactions {
     return _userTransactions
         .where(
