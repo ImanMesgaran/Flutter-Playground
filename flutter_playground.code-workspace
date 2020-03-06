@@ -3,5 +3,8 @@
 		{
 			"path": "."
 		}
-	]
+	],
+	"settings": {
+		"dart.previewFlutterUiGuides": true
+	}
 }

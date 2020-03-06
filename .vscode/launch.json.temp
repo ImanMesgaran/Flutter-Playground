@@ -14,13 +14,12 @@
     //   "name": "Dart: Run all Tests",
     //   "type": "dart",
     //   "request": "launch",
-    //   "program": "./clean_architecture/test/"
+    //   "program": "${workspaceFolder}/clean_architecture/test/"
     // },
-    {
-      "name": "Dart",
-      "program": "bin/main.dart",
-      "request": "launch",
-      "type": "dart"
-    }
+    // {
+    //   "name": "Flutter",
+    //   "type": "dart",
+    //   "request": "launch"
+    // }
   ]
 }
